@@ -918,7 +918,6 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 export const Hero: React.FC = () => {
   /* ---------- Carousel ---------- */
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
   const [direction, setDirection] = useState(1);
   const [imageError, setImageError] = useState<Record<number, boolean>>({});
 
@@ -980,16 +979,11 @@ export const Hero: React.FC = () => {
     setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
   }, []);
 
-  const prevSlide = useCallback(() => {
-    setDirection(-1);
-    setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-  }, []);
-
   useEffect(() => {
-    if (!isPlaying || detailsOpen || contactOpen || infoOpen) return;
+    if (detailsOpen || contactOpen || infoOpen) return;
     const timer = setInterval(nextSlide, 5000);
     return () => clearInterval(timer);
-  }, [isPlaying, nextSlide, detailsOpen, contactOpen, infoOpen]);
+  }, [nextSlide, detailsOpen, contactOpen, infoOpen]);
 
   useEffect(() => {
     if (snackbar.open) {
